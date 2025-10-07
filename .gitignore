@@ -49,3 +49,4 @@ test_*
 *.obj
 *mtl
 *.ply
+/bin
