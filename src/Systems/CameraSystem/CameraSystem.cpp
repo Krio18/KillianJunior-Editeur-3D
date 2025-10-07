@@ -11,7 +11,7 @@ void CameraSystem::pan(EntityID camEntity, float horizontal, float vertical, flo
     if (!cam) return;
 
     cam->focusMode = false;
-    this->_transformSystem.setPosition(camEntity, horizontal * cam->panSensitivity, vertical * cam->panSensitivity, depth * cam->panSensitivity);
+    this->_transformSystem.setPosition(camEntity, {horizontal * cam->panSensitivity, vertical * cam->panSensitivity, depth * cam->panSensitivity});
 }
 
 void CameraSystem::zoom(EntityID camEntity, float amount)
@@ -41,12 +41,7 @@ void CameraSystem::rotate(EntityID camEntity, float horizontal, float vertical)
 
     glm::vec3 pivot = cam->focusMode ? cam->target : (transform->position + cam->forward);
 
-    this->_transformSystem.setRotation(
-        camEntity,
-        horizontal * cam->rotateSensitivity,
-        vertical * cam->rotateSensitivity,
-        &pivot
-    );
+    this->_transformSystem.setRotation(camEntity, {horizontal * cam->rotateSensitivity, vertical * cam->rotateSensitivity}, &pivot);
 
     glm::vec3 newForward = glm::normalize(pivot - transform->position);
     cam->forward = newForward;

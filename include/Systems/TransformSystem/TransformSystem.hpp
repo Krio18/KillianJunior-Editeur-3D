@@ -19,8 +19,8 @@ class TransformSystem {
         TransformSystem(ComponentRegistry& registry, EntityManager& entityMgr);
         ~TransformSystem() = default;
 
-        void setPosition(EntityID entityId, float horizontal, float vertical, float depth);
-        void setRotation(EntityID entityId, float horizontal, float vertical, const glm::vec3* pivot);
+        void setPosition(EntityID entityId, const glm::vec3 position);
+        void setRotation(EntityID entityId, const glm::vec2 rotation, const glm::vec3* pivot);
         void setScale(EntityID entityId, const glm::vec3& scale);
 
         void update();

@@ -3,7 +3,7 @@
 TransformSystem::TransformSystem(ComponentRegistry& registry, EntityManager& entityMgr)
     : _registry(registry), _entityManager(entityMgr) {}
 
-void TransformSystem::setPosition(EntityID entityId, float horizontal, float vertical, float depth)
+void TransformSystem::setPosition(EntityID entityId, const glm::vec3 position)
 {
     float deltaTime = ofGetLastFrameTime();
     Transform *transform = this->_registry.getComponent<Transform>(entityId);
@@ -12,11 +12,11 @@ void TransformSystem::setPosition(EntityID entityId, float horizontal, float ver
     glm::vec3 up = glm::vec3(0, 1, 0);
     glm::vec3 forward = glm::vec3(0, 0, -1);
 
-    transform->position += horizontal * deltaTime * right + vertical * deltaTime * up + depth * deltaTime * forward;
+    transform->position += position.x * deltaTime * right + position.y * deltaTime * up + position.z * deltaTime * forward;
     transform->isDirty = true;
 }
 
-void TransformSystem::setRotation(EntityID entityId, float horizontal, float vertical, const glm::vec3* pivot)
+void TransformSystem::setRotation(EntityID entityId, const glm::vec2 rotation, const glm::vec3* pivot)
 {
     float deltaTime = ofGetLastFrameTime();
     Transform* transform = this->_registry.getComponent<Transform>(entityId);
@@ -29,8 +29,8 @@ void TransformSystem::setRotation(EntityID entityId, float horizontal, float ver
     float yaw = atan2(offset.x, offset.z);
     float pitch = asin(offset.y / radius);
 
-    yaw += horizontal * deltaTime;
-    pitch += vertical * deltaTime;
+    yaw += rotation.x * deltaTime;
+    pitch += rotation.y * deltaTime;
 
     float limit = glm::radians(89.0f);
     pitch = glm::clamp(pitch, -limit, limit);
