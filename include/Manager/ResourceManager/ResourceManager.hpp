@@ -10,7 +10,6 @@ class ResourceManager {
         ofMesh& loadMesh(std::string path);
         ofTexture& loadTexture(std::string path);
         ofShader& loadShader(std::string vertexPath, std::string fragmentPath);
-
     private:
         std::unordered_map<std::string, ofTexture> _textures;
         std::unordered_map<std::string, ofShader> _shaders;
