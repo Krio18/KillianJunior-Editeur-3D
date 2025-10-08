@@ -67,6 +67,7 @@ void ofApp::setup()
         *this->_fileManager,
         this->_eventManager,
         *this->_viewportManager,
+        *this->_cameraManager,
         this->_testEntities
     );
     this->_actionManager->registerAllActions();
@@ -256,7 +257,7 @@ void ofApp::update()
     input.processKeyActions();
     input.processShortcuts();
 
-    this->_actionManager->updateCameraAction(_cameraManager);
+    this->_actionManager->updateCameraAction(this->_toolbar.get());
     this->_cameraManager->update(ofGetWidth(), ofGetHeight());
 
     this->_transformSystem->update();
