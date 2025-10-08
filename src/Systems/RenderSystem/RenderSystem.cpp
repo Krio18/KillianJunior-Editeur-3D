@@ -87,21 +87,25 @@ void RenderSystem::drawMesh(const ofMesh& mesh, const glm::mat4& transform, cons
 
     if (material && material->shader) {
         material->shader->begin();
-
         material->shader->setUniformMatrix4f("modelMatrix", transform);
-
+        
         Camera* activeCam = this->_cameraManager.getActiveCamera();
         if (activeCam) {
             material->shader->setUniformMatrix4f("viewMatrix", activeCam->viewMatrix);
             material->shader->setUniformMatrix4f("projMatrix", activeCam->projMatrix);
         }
-
-        if (material->texture)
+        
+        material->shader->setUniform4f("color", ofFloatColor(color));
+        if (material->texture) {
             material->shader->setUniformTexture("tex0", *material->texture, 0);
+        }
 
         mesh.draw();
-
         material->shader->end();
+    } else if (material->texture && !material->shader) {
+        material->texture->bind();
+        mesh.draw();
+        material->texture->unbind();
     } else {
         mesh.draw();
     }

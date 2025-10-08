@@ -14,7 +14,12 @@ struct Renderable {
     Material* material{nullptr};
 
     Renderable() = default;
-    Renderable(const ofMesh& m, const ofColor& c = ofColor(255, 255, 255), bool v = true)
-        : mesh(m), color(c), visible(v) {}
+    Renderable(const ofMesh& m, const ofColor& c = ofColor(255, 255, 255), bool v = true, ofShader* s = nullptr, ofTexture* t = nullptr)
+    : mesh(m), color(c), visible(v) {
+        material = new Material();
+        material->shader = s;
+        material->texture = t;
+    };
+    
 };
 

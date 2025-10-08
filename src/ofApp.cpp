@@ -12,6 +12,7 @@ void ofApp::setup()
 
     this->_eventBridge = std::make_unique<EventBridge>(this->_eventManager);
     this->_historyManager = std::make_unique<HistoryManager>();
+    this->_resourceManager = std::make_unique<ResourceManager>();
     this->_eventBridge->setup();
 
     this->_addLog("=== System Initialized ===", ofColor::green);
@@ -120,10 +121,12 @@ void ofApp::_setupScene()
     this->_testEntities.push_back(planeEntity.getId());
     this->_addLog("Plane entity created (ID: " + ofToString(planeEntity.getId()) + ")", ofColor::magenta);
 
+    ofTexture& texture = this->_resourceManager->loadTexture("./cat.png");
+    // ofShader& shader = resource.loadShader("./texture.vert", "./texture.frag");
     Entity sphereEntity2 = this->_entityManager.createEntity();
-    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Transform(glm::vec3(1, 2, 0)));
+    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Transform(glm::vec3(2, 2, 0)));
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Sphere(1.2f));
-    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(ofMesh(), ofColor::cyan));
+    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &texture));
     this->_testEntities.push_back(sphereEntity2.getId());
     this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity2.getId()) + ")", ofColor::magenta);
 

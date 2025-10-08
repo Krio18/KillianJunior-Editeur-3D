@@ -29,6 +29,7 @@
 #include "Manager/PropertiesManager/PropertiesManager.hpp"
 #include "Manager/SceneManager/SceneManager.hpp"
 #include "Manager/UIManager/UIManager.hpp"
+#include "Manager/ResourceManager/ResourceManager.hpp"
 
 // Systems
 #include "Systems/CameraSystem/CameraSystem.hpp"
@@ -47,6 +48,8 @@
 #include "ofxImGui.h"
 
 #include <sstream>
+
+class ResourceManager;
 
 class ofApp : public ofBaseApp {
     public:
@@ -81,12 +84,15 @@ class ofApp : public ofBaseApp {
         std::unique_ptr<ColorPalette> _colorPalette;
         std::unique_ptr<EventBridge> _eventBridge;
         std::unique_ptr<Toolbar> _toolbar;
+        std::unique_ptr<ResourceManager> _resourceManager;
+        EntityManager _entityManager;
         ComponentRegistry _componentRegistry;
 
         std::unique_ptr<TransformSystem> _transformSystem;
         std::unique_ptr<CameraSystem> _cameraSystem;
         std::unique_ptr<RenderSystem> _renderSystem;
         std::unique_ptr<PrimitiveSystem> _primitiveSystem;
+
 
         struct EventLog {
             std::string message;
