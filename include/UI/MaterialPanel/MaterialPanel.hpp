@@ -7,21 +7,20 @@
 #include "Core/Entity/Entity.hpp"
 // #include "Manager/ResourceManager/ResourceManager.hpp"
 
+// System
+#include "Systems/SelectionSystem/SelectionSystem.hpp"
+
 #include "ofxImGui.h"
 
 class MaterialPanel {
     public:
-        MaterialPanel(ComponentRegistry& _componentRegistry, EntityID _entityId = INVALID_ENTITY);
+        MaterialPanel(ComponentRegistry& componentRegistry, SelectionSystem& selectionSystem);
         ~MaterialPanel() = default;
 
         void render();
-        void setSelectedEntity(EntityID id);
-        void unsetSelectedEntity();
 
-    protected:
     private:
-        EntityID _entityId;
         ComponentRegistry& _componentRegistry;
         Renderable* _renderable = nullptr;
-        // ResourceManager* _resource = nullptr;
+        SelectionSystem& _selectionSystem;
 };
