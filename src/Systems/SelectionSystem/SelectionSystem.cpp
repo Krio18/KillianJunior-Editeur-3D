@@ -1,4 +1,9 @@
 #include "Systems/SelectionSystem/SelectionSystem.hpp"
+#include "UI/Viewport/Viewport.hpp"
+#include <limits>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 SelectionSystem::SelectionSystem(
     ComponentRegistry& registry,
@@ -13,6 +18,7 @@ SelectionSystem::SelectionSystem(
       _cameraManager(cameraManager),
       _viewportManager(viewportManager)
 {
+    std::cout << "[SelectionSystem] Constructor" << std::endl;
 }
 
 void SelectionSystem::setup()

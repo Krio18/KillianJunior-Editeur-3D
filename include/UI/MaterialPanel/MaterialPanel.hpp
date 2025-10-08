@@ -10,6 +10,9 @@
 // System
 #include "Systems/SelectionSystem/SelectionSystem.hpp"
 
+// System
+#include "Systems/SelectionSystem/SelectionSystem.hpp"
+
 #include "ofxImGui.h"
 
 class MaterialPanel {

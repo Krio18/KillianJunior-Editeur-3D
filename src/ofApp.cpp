@@ -95,6 +95,7 @@ void ofApp::setup()
         this->_entityManager,
         this->_componentRegistry,
         *this->_primitiveSystem,
+        *this->_selectionSystem,
         *this->_fileManager,
         this->_eventManager,
         *this->_viewportManager,
@@ -157,6 +158,7 @@ void ofApp::_setupScene()
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Sphere(1.2f));
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Renderable(ofMesh(), ofColor::green));
     this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
+    this->_componentRegistry.registerComponent(sphereEntity.getId(), Selectable());
     this->_testEntities.push_back(sphereEntity.getId());
     this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
 

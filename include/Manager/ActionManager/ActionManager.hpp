@@ -31,6 +31,7 @@ class ActionManager {
             EntityManager& entityManager,
             ComponentRegistry& componentRegistry,
             PrimitiveSystem& primitiveSystem,
+            SelectionSystem& selectionSystem,
             FileManager& fileManager,
             EventManager& eventManager,
             ViewportManager& viewportManager,
@@ -58,6 +59,7 @@ class ActionManager {
         EntityManager& _entityManager;
         ComponentRegistry& _componentRegistry;
         PrimitiveSystem& _primitiveSystem;
+        SelectionSystem& _selectionSystem;
         FileManager& _fileManager;
         EventManager& _eventManager;
         ViewportManager& _viewportManager;

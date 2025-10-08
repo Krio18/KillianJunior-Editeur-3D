@@ -27,6 +27,8 @@ void ColorPalette::render()
     ImGui::Spacing();
     ImGui::Text("Picker");
     edited |= ImGui::ColorPicker4("##picker", (float*)&color);
+    edited |= ImGui::ColorEdit4("Color", (float*)&color);
+    edited |= ImGui::ColorPicker4("Palette", (float*)&color);
 
     if (edited) {
         this->_color = ofColor(

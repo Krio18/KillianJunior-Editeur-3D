@@ -95,6 +95,7 @@ class ofApp : public ofBaseApp {
         std::unique_ptr<CameraSystem> _cameraSystem;
         std::unique_ptr<RenderSystem> _renderSystem;
         std::unique_ptr<PrimitiveSystem> _primitiveSystem;
+        std::unique_ptr<SelectionSystem> _selectionSystem;
 
 
         struct EventLog {
