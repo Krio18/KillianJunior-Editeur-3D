@@ -19,6 +19,8 @@ void ofApp::setup()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     this->_eventBridge = std::make_unique<EventBridge>(this->_eventManager);
+    this->_historyManager = std::make_unique<HistoryManager>();
+    this->_resourceManager = std::make_unique<ResourceManager>();
     this->_eventBridge->setup();
 
     this->_eventLogPanel = std::make_unique<EventLogPanel>();
