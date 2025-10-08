@@ -134,10 +134,12 @@ void ofApp::_setupSystems()
 
 void ofApp::_setupScene()
 {
+    //* test texture
+    ofTexture& textureWood = this->_resourceManager->loadTexture("./texture.jpg");
     Entity boxEntity = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(boxEntity.getId(), Transform(glm::vec3(-3, 0, 0)));
     this->_componentRegistry.registerComponent(boxEntity.getId(), Box(glm::vec3(1.5f, 1.5f, 1.5f)));
-    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::red));
+    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &textureWood));
     this->_sceneManager->registerEntity(boxEntity.getId(), "Box");
     this->_componentRegistry.registerComponent(boxEntity.getId(), Selectable());
     this->_testEntities.push_back(boxEntity.getId());
