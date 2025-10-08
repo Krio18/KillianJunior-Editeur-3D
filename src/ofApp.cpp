@@ -97,18 +97,34 @@ void ofApp::_setupSystems()
 
 void ofApp::_setupScene()
 {
+    //* test texture
+    ofTexture& textureWood = this->_resourceManager->loadTexture("./texture.jpg");
     Entity boxEntity = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(boxEntity.getId(), Transform(glm::vec3(-3, 0, 0)));
     this->_componentRegistry.registerComponent(boxEntity.getId(), Box(glm::vec3(1.5f, 1.5f, 1.5f)));
-    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::red));
+    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &textureWood));
     this->_sceneManager->registerEntity(boxEntity.getId(), "Box");
     this->_testEntities.push_back(boxEntity.getId());
     this->_addLog("Box entity created (ID: " + ofToString(boxEntity.getId()) + ")", ofColor::magenta);
 
+    //* test shader
+    ofTexture& textureTest = this->_resourceManager->loadTexture("./transition_mask.png");
+    ofShader& shader2 = this->_resourceManager->loadShader("./transition.vert", "./transition.frag");
+    Entity boxEntity2 = this->_entityManager.createEntity();
+    this->_componentRegistry.registerComponent(boxEntity2.getId(), Transform(glm::vec3(-3, 2, 0)));
+    this->_componentRegistry.registerComponent(boxEntity2.getId(), Box(glm::vec3(1.5f, 1.5f, 1.5f)));
+    this->_componentRegistry.registerComponent(boxEntity2.getId(), Renderable(ofMesh(), ofColor::red, true, &shader2, &textureTest));
+    this->_sceneManager->registerEntity(boxEntity2.getId(), "Box");
+    this->_testEntities.push_back(boxEntity2.getId());
+    this->_addLog("Box entity created (ID: " + ofToString(boxEntity2.getId()) + ")", ofColor::magenta);
+
+    //*test shader
+    ofTexture& texture1 = this->_resourceManager->loadTexture("./transition_mask.png");
+    ofShader& shader1 = this->_resourceManager->loadShader("./transition.vert", "./transition.frag");
     Entity sphereEntity = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Transform(glm::vec3(0, 0, 0)));
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Sphere(1.2f));
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Renderable(ofMesh(), ofColor::green));
+    this->_componentRegistry.registerComponent(sphereEntity.getId(), Renderable(ofMesh(), ofColor::blue, true, &shader1, &texture1));
     this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
     this->_testEntities.push_back(sphereEntity.getId());
     this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
@@ -121,15 +137,15 @@ void ofApp::_setupScene()
     this->_testEntities.push_back(planeEntity.getId());
     this->_addLog("Plane entity created (ID: " + ofToString(planeEntity.getId()) + ")", ofColor::magenta);
 
-    ofTexture& texture = this->_resourceManager->loadTexture("./cat.png");
-    // ofShader& shader = resource.loadShader("./texture.vert", "./texture.frag");
+    //* test texture
+    ofTexture& texture = this->_resourceManager->loadTexture("./texture.jpg");
     Entity sphereEntity2 = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Transform(glm::vec3(2, 2, 0)));
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Sphere(1.2f));
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &texture));
+    this->_sceneManager->registerEntity(sphereEntity2.getId(), "Sphere");
     this->_testEntities.push_back(sphereEntity2.getId());
     this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity2.getId()) + ")", ofColor::magenta);
-
 
     this->_primitiveSystem->generateMeshes();
     this->_addLog("All primitive meshes generated", ofColor::green);

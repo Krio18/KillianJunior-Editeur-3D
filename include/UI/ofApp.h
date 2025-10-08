@@ -85,7 +85,6 @@ class ofApp : public ofBaseApp {
         std::unique_ptr<EventBridge> _eventBridge;
         std::unique_ptr<Toolbar> _toolbar;
         std::unique_ptr<ResourceManager> _resourceManager;
-        EntityManager _entityManager;
         ComponentRegistry _componentRegistry;
 
         std::unique_ptr<TransformSystem> _transformSystem;

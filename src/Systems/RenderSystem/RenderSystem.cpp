@@ -94,8 +94,8 @@ void RenderSystem::drawMesh(const ofMesh& mesh, const glm::mat4& transform, cons
             material->shader->setUniformMatrix4f("viewMatrix", activeCam->viewMatrix);
             material->shader->setUniformMatrix4f("projMatrix", activeCam->projMatrix);
         }
-        
         material->shader->setUniform4f("color", ofFloatColor(color));
+        material->shader->setUniform1f("uTime", ofGetElapsedTimef());
         if (material->texture) {
             material->shader->setUniformTexture("tex0", *material->texture, 0);
         }
