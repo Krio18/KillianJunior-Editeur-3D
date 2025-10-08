@@ -1,12 +1,14 @@
 #include "UI/MaterialPanel/MaterialPanel.hpp"
 
 MaterialPanel::MaterialPanel(ComponentRegistry& componentRegistry, SelectionSystem& selectionSystem)
-    : _componentRegistry(componentRegistry), _selectionSystem(selectionSystem){}
+    : _componentRegistry(componentRegistry), _selectionSystem(selectionSystem)
+{
+}
 
 void MaterialPanel::render()
 {
     EntityID selectedEntity = this->_selectionSystem.getSelectedEntity();
-    Renderable* renderable = this->_componentRegistry.getComponent<Renderable>(selectedEntity);
+    Renderable* renderable = _componentRegistry.getComponent<Renderable>(selectedEntity);
     if (this->_selectionSystem.getSelectedEntity() == INVALID_ENTITY)
         return;
 
