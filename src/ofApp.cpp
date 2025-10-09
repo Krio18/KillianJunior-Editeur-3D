@@ -156,9 +156,9 @@ void ofApp::_setupScene()
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Transform(glm::vec3(2, 2, 0)));
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Object(0.1f));
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(mesh, ofColor::white, true, nullptr, &texture));
-    this->_sceneManager->registerEntity(sphereEntity2.getId(), "Sphere");
+    this->_sceneManager->registerEntity(sphereEntity2.getId(), "Object");
     this->_testEntities.push_back(sphereEntity2.getId());
-    this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity2.getId()) + ")", ofColor::magenta);
+    this->_addLog("Object entity created (ID: " + ofToString(sphereEntity2.getId()) + ")", ofColor::magenta);
 
     this->_primitiveSystem->generateMeshes();
     this->_addLog("All primitive meshes generated", ofColor::green);
