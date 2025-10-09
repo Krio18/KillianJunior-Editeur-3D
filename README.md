@@ -182,10 +182,10 @@
 
 ### Manager/ResourceManager.h
 
-- [ ] Cache des ressources (meshes, textures, shaders)
-- [ ] Méthodes `loadMesh(string path)`
-- [ ] Méthodes `loadTexture(string path)`
-- [ ] Méthodes `loadShader(string path)`
+- [x] Cache des ressources (meshes, textures, shaders)
+- [x] Méthodes `loadMesh(string path)`
+- [x] Méthodes `loadTexture(string path)`
+- [x] Méthodes `loadShader(string path)`
 - [ ] Reference counting
 - [ ] Nettoyage automatique ressources inutilisées
 

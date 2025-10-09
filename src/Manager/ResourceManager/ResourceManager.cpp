@@ -1,4 +1,5 @@
 #include "Manager/ResourceManager/ResourceManager.hpp"
+#include "ofxAssimpModelLoader.h"
 
 ResourceManager::ResourceManager()
 {
@@ -9,9 +10,72 @@ ResourceManager::~ResourceManager()
 }
 
 ofMesh& ResourceManager::loadMesh(std::string path) {
+
     if (this->_meshes.find(path) == this->_meshes.end()) {
+        ofxAssimpModelLoader model;
         ofMesh mesh;
-        mesh.load(path);
+        
+        model.loadModel(path);
+        mesh = model.getMesh(0);
+        // Debug info: print vertex/texcoord counts and bounds
+        size_t vcount = mesh.getNumVertices();
+        size_t tcount = mesh.getNumTexCoords();
+        ofVec3f minb(FLT_MAX, FLT_MAX, FLT_MAX), maxb(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+        for (auto &v : mesh.getVertices()) {
+            minb.x = std::min(minb.x, v.x);
+            minb.y = std::min(minb.y, v.y);
+            minb.z = std::min(minb.z, v.z);
+            maxb.x = std::max(maxb.x, v.x);
+            maxb.y = std::max(maxb.y, v.y);
+            maxb.z = std::max(maxb.z, v.z);
+        }
+        ofLogNotice("ResourceManager") << "Loaded mesh '" << path << "' vertices=" << vcount << " texcoords=" << tcount
+                                       << " bounds=[(" << minb.x << "," << minb.y << "," << minb.z << ") - ("
+                                       << maxb.x << "," << maxb.y << "," << maxb.z << ")]";
+
+        // Optionally rescale the mesh to a reasonable size so imported meshes don't appear huge/small
+        float targetSize = 5.0f;
+        glm::vec3 size = glm::vec3(maxb.x - minb.x, maxb.y - minb.y, maxb.z - minb.z);
+        float maxDim = std::max({size.x, size.y, size.z});
+        if (maxDim > 0.0f) {
+            float scaleFactor = (maxDim != 0.f) ? (targetSize / maxDim) : 1.0f;
+            if (fabs(scaleFactor - 1.0f) > 1e-6) {
+                ofLogNotice("ResourceManager") << "Scaling mesh '" << path << "' by factor " << scaleFactor << " to fit targetSize=" << targetSize;
+                auto &verts = mesh.getVertices();
+                for (auto &v : verts) {
+                    v.x *= scaleFactor;
+                    v.y *= scaleFactor;
+                    v.z *= scaleFactor;
+                }
+
+                // recompute bounds after scaling
+                minb = ofVec3f(FLT_MAX, FLT_MAX, FLT_MAX);
+                maxb = ofVec3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+                for (auto &v : mesh.getVertices()) {
+                    minb.x = std::min(minb.x, v.x);
+                    minb.y = std::min(minb.y, v.y);
+                    minb.z = std::min(minb.z, v.z);
+                    maxb.x = std::max(maxb.x, v.x);
+                    maxb.y = std::max(maxb.y, v.y);
+                    maxb.z = std::max(maxb.z, v.z);
+                }
+            }
+        }
+
+        // If the mesh has no texcoords, generate simple planar UVs (project on XZ plane)
+        if (tcount == 0 && vcount > 0) {
+            ofLogWarning("ResourceManager") << "Mesh has no texcoords - generating planar UVs (XZ projection)";
+            mesh.clearTexCoords();
+            float spanX = maxb.x - minb.x;
+            float spanZ = maxb.z - minb.z;
+            if (spanX <= 0.f) spanX = 1.f;
+            if (spanZ <= 0.f) spanZ = 1.f;
+            for (auto &v : mesh.getVertices()) {
+                float u = (v.x - minb.x) / spanX;
+                float vcoord = (v.z - minb.z) / spanZ; // using Z as V coordinate
+                mesh.addTexCoord(ofVec2f(u, vcoord));
+            }
+        }
         this->_meshes[path] = mesh;
     }
     return this->_meshes[path];

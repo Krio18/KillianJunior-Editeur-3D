@@ -138,11 +138,12 @@ void ofApp::_setupScene()
     this->_addLog("Plane entity created (ID: " + ofToString(planeEntity.getId()) + ")", ofColor::magenta);
 
     //* test texture
-    ofTexture& texture = this->_resourceManager->loadTexture("./texture.jpg");
+    ofTexture& texture = this->_resourceManager->loadTexture("./spaceshipTex.png");
+    ofMesh& mesh = this->_resourceManager->loadMesh("./spaceship.obj");
     Entity sphereEntity2 = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(sphereEntity2.getId(), Transform(glm::vec3(2, 2, 0)));
-    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Sphere(1.2f));
-    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &texture));
+    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Object(0.1f));
+    this->_componentRegistry.registerComponent(sphereEntity2.getId(), Renderable(mesh, ofColor::white, true, nullptr, &texture));
     this->_sceneManager->registerEntity(sphereEntity2.getId(), "Sphere");
     this->_testEntities.push_back(sphereEntity2.getId());
     this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity2.getId()) + ")", ofColor::magenta);

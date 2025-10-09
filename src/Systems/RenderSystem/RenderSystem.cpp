@@ -99,7 +99,6 @@ void RenderSystem::drawMesh(const ofMesh& mesh, const glm::mat4& transform, cons
         if (material->texture) {
             material->shader->setUniformTexture("tex0", *material->texture, 0);
         }
-
         mesh.draw();
         material->shader->end();
     } else if (material->texture && !material->shader) {

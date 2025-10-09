@@ -4,6 +4,7 @@
 #include "Components/Primitive/Box.hpp"
 #include "Components/Primitive/Sphere.hpp"
 #include "Components/Primitive/Plane.hpp"
+#include "Components/Primitive/Object.hpp"
 #include "Components/Renderable.hpp"
 
 // Core
