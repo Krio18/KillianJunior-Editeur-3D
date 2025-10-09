@@ -133,6 +133,26 @@ void CameraManager::update(int viewportWidth, int viewportHeight)
     this->_cameraSystem.update(this->_cameraEntities, viewportWidth, viewportHeight);
 }
 
+void CameraManager::zoom(float dir)
+{
+    this->_cameraSystem.zoom(this->_activeCamera, dir);
+}
+
+void CameraManager::rotate(const glm::vec2 vect)
+{
+    this->_cameraSystem.rotate(this->_activeCamera, vect);
+}
+
+void CameraManager::pan(const glm::vec3 vect)
+{
+    this->_cameraSystem.pan(this->_activeCamera, vect);
+}
+
+void CameraManager::update(int viewportWidth, int viewportHeight)
+{
+    this->_cameraSystem.update(this->_cameraEntities, viewportWidth, viewportHeight);
+}
+
 EntityManager &CameraManager::getEntityManager() const
 {
     return this->_entityManager;
