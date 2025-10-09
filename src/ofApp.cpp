@@ -150,7 +150,7 @@ void ofApp::_setupScene()
     this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Selectable());
     this->_testEntities.push_back(sphereEntity.getId());
-    this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
+    this->_eventLogPanel->addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
 
     Entity planeEntity = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(planeEntity.getId(), Transform(glm::vec3(3, 0, 0)));

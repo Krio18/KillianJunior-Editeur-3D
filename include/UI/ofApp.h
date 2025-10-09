@@ -96,17 +96,6 @@ class ofApp : public ofBaseApp {
         std::unique_ptr<RenderSystem> _renderSystem;
         std::unique_ptr<PrimitiveSystem> _primitiveSystem;
         std::unique_ptr<SelectionSystem> _selectionSystem;
-
-
-        struct EventLog {
-            std::string message;
-            std::chrono::time_point<std::chrono::steady_clock> timestamp;
-            ofColor color;
-        };
-
-        std::vector<EventLog> _eventLogs;
-        const size_t _MAX_LOGS = 20;
-
         ofxImGui::Gui _gui;
         std::vector<EntityID> _testEntities;
         EntityID _cameraEntity = INVALID_ENTITY;
