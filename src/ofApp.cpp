@@ -160,7 +160,7 @@ void ofApp::_setupScene()
     this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Selectable());
     this->_testEntities.push_back(sphereEntity.getId());
-    this->_addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
+    this->_eventLogPanel->addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
 
     this->_primitiveSystem->generateMeshes();
     this->_eventLogPanel->addLog("All primitive meshes generated", ofColor::green);
