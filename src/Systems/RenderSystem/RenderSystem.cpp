@@ -130,6 +130,7 @@ void RenderSystem::drawMesh(const ofMesh& mesh, const glm::mat4& transform, cons
         material->texture->unbind();
     } else {
         mesh.draw();
+    }
 
     ofPopMatrix();
 }
