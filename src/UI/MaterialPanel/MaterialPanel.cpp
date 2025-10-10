@@ -17,14 +17,12 @@ void MaterialPanel::render()
             ImGui::Text("Material:");
 
             if (this->_renderable->material->shader) {
-                // std::string texName = _resource->getShaderPath(this->_renderable->material->shader);
                 ImGui::Text(" - Shader: Set");
             }
             else
                 ImGui::Text(" - Shader: None");
 
             if (this->_renderable->material->texture) {
-                // std::string texName = _resource->getTexturePath(this->_renderable->material->texture);
                 ofTexture* tex = this->_renderable->material->texture;
                 ImGui::Text(" - Texture: Set");
                 ImVec2 thumbSize = ImVec2(24, 24);

@@ -120,6 +120,7 @@ void ofApp::setup()
 
 void ofApp::_setupSystems()
 {
+    this->_resourceManager = std::make_unique<ResourceManager>();
     this->_transformSystem = std::make_unique<TransformSystem>(this->_componentRegistry, this->_entityManager);
     this->_primitiveSystem = std::make_unique<PrimitiveSystem>(this->_componentRegistry, this->_entityManager);
     this->_cameraSystem = std::make_unique<CameraSystem>(this->_componentRegistry, *this->_transformSystem);
@@ -131,10 +132,12 @@ void ofApp::_setupSystems()
 
 void ofApp::_setupScene()
 {
+    auto& texture = this->_resourceManager->loadTexture("./photo.jpg");
+
     Entity boxEntity = this->_entityManager.createEntity();
     this->_componentRegistry.registerComponent(boxEntity.getId(), Transform(glm::vec3(-3, 0, 0)));
     this->_componentRegistry.registerComponent(boxEntity.getId(), Box(glm::vec3(1.5f, 1.5f, 1.5f)));
-    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::red));
+    this->_componentRegistry.registerComponent(boxEntity.getId(), Renderable(ofMesh(), ofColor::white, true, nullptr, &texture));
     this->_sceneManager->registerEntity(boxEntity.getId(), "Box");
     this->_componentRegistry.registerComponent(boxEntity.getId(), Selectable());
     this->_testEntities.push_back(boxEntity.getId());

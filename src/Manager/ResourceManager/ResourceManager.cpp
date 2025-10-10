@@ -32,7 +32,6 @@ ofMesh& ResourceManager::loadMesh(std::string path) {
                                        << " bounds=[(" << minb.x << "," << minb.y << "," << minb.z << ") - ("
                                        << maxb.x << "," << maxb.y << "," << maxb.z << ")]";
 
-        // Optionally rescale the mesh to a reasonable size so imported meshes don't appear huge/small
         float targetSize = 5.0f;
         glm::vec3 size = glm::vec3(maxb.x - minb.x, maxb.y - minb.y, maxb.z - minb.z);
         float maxDim = std::max({size.x, size.y, size.z});
@@ -47,7 +46,6 @@ ofMesh& ResourceManager::loadMesh(std::string path) {
                     v.z *= scaleFactor;
                 }
 
-                // recompute bounds after scaling
                 minb = ofVec3f(FLT_MAX, FLT_MAX, FLT_MAX);
                 maxb = ofVec3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
                 for (auto &v : mesh.getVertices()) {
@@ -61,7 +59,6 @@ ofMesh& ResourceManager::loadMesh(std::string path) {
             }
         }
 
-        // If the mesh has no texcoords, generate simple planar UVs (project on XZ plane)
         if (tcount == 0 && vcount > 0) {
             ofLogWarning("ResourceManager") << "Mesh has no texcoords - generating planar UVs (XZ projection)";
             mesh.clearTexCoords();
@@ -71,7 +68,7 @@ ofMesh& ResourceManager::loadMesh(std::string path) {
             if (spanZ <= 0.f) spanZ = 1.f;
             for (auto &v : mesh.getVertices()) {
                 float u = (v.x - minb.x) / spanX;
-                float vcoord = (v.z - minb.z) / spanZ; // using Z as V coordinate
+                float vcoord = (v.z - minb.z) / spanZ;
                 mesh.addTexCoord(ofVec2f(u, vcoord));
             }
         }
@@ -94,8 +91,6 @@ ofTexture& ResourceManager::loadTexture(std::string path) {
         static ofTexture dummy;
         return dummy;
     }
-
-    std::cout << "Loaded " << path << ", size: " << img.getWidth() << "x" << img.getHeight() << std::endl;
 
     auto [insertedIt, success] = this->_textures.emplace(path, ofTexture());
     ofTexture& tex = insertedIt->second;
