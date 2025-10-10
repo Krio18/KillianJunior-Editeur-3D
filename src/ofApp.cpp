@@ -153,8 +153,8 @@ void ofApp::_setupScene()
 
     
     Entity sphereEntity = this->_entityManager.createEntity();
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Transform(glm::vec3(2, 2, 0)));
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Sphere(2.1f));
+    this->_componentRegistry.registerComponent(sphereEntity.getId(), Transform(glm::vec3(0, 0, 0)));
+    this->_componentRegistry.registerComponent(sphereEntity.getId(), Sphere(1.2f));
     this->_componentRegistry.registerComponent(sphereEntity.getId(), Renderable(ofMesh(), ofColor::green));
     this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
     this->_testEntities.push_back(sphereEntity.getId());
