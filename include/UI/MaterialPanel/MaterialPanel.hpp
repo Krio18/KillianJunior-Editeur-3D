@@ -23,4 +23,5 @@ class MaterialPanel {
         ComponentRegistry& _componentRegistry;
         Renderable* _renderable = nullptr;
         SelectionSystem& _selectionSystem;
+        // ResourceManager* _resource = nullptr;
 };
