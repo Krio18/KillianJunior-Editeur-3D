@@ -17,7 +17,6 @@ ofMesh& ResourceManager::loadMesh(std::string path) {
         
         model.loadModel(path);
         mesh = model.getMesh(0);
-        // Debug info: print vertex/texcoord counts and bounds
         size_t vcount = mesh.getNumVertices();
         size_t tcount = mesh.getNumTexCoords();
         ofVec3f minb(FLT_MAX, FLT_MAX, FLT_MAX), maxb(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -105,6 +104,33 @@ ofTexture& ResourceManager::loadTexture(std::string path) {
     tex.loadData(img.getPixels());
 
     return tex;
+}
+
+std::string ResourceManager::getTexturePath(ofTexture& target) {
+    for (const auto& [path, tex] : this->_textures) {
+        if (&tex == &target) {
+            return path;
+        }
+    }
+    return {};
+}
+
+std::string ResourceManager::getShaderPath(ofShader& target) {
+    for (const auto& [path, shader] : this->_shaders) {
+        if (&shader == &target) {
+            return path;
+        }
+    }
+    return {};
+}
+
+std::string ResourceManager::getMeshPath(ofMesh& target) {
+    for (const auto& [path, mesh] : this->_meshes) {
+        if (&mesh == &target) {
+            return path;
+        }
+    }
+    return {};
 }
 
 ofShader& ResourceManager::loadShader(std::string vertexPath, std::string fragmentPath) {

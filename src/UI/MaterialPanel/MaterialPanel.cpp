@@ -3,6 +3,7 @@
 MaterialPanel::MaterialPanel(ComponentRegistry& componentRegistry, EntityID entityId)
     : _entityId(entityId), _componentRegistry(componentRegistry)
 {
+    this->_resourceManager = new ResourceManager();
     this->_entityId = entityId;
     if (entityId == INVALID_ENTITY)
         return;
@@ -34,13 +35,21 @@ void MaterialPanel::render()
         if (this->_renderable->material) {
             ImGui::Text("Material:");
 
-            if (this->_renderable->material->shader)
+            if (this->_renderable->material->shader) {
+                // std::string texName = _resource->getShaderPath(this->_renderable->material->shader);
                 ImGui::Text(" - Shader: Set");
+            }
             else
                 ImGui::Text(" - Shader: None");
 
-            if (this->_renderable->material->texture)
-                ImGui::Text(" - Texture: Set");
+            if (this->_renderable->material->texture) {
+                // std::string texName = _resource->getTexturePath(this->_renderable->material->texture);
+                ofTexture* tex = this->_renderable->material->texture;
+                ImGui::Text(" - Texture: %s", texName);
+                ImVec2 thumbSize = ImVec2(24, 24);
+                GLuint texID = tex->getTextureData().textureID;
+                ImGui::Image((ImTextureID)(uintptr_t)texID, thumbSize, ImVec2(0,1), ImVec2(1,0));
+            }
             else
                 ImGui::Text(" - Texture: None");
 

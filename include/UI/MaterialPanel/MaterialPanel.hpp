@@ -5,6 +5,7 @@
 #include "Components/Renderable.hpp"
 #include "Core/ComponentRegistry/ComponentRegistry.hpp"
 #include "Core/Entity/Entity.hpp"
+// #include "Manager/ResourceManager/ResourceManager.hpp"
 
 #include "ofxImGui.h"
 
@@ -22,4 +23,5 @@ class MaterialPanel {
         EntityID _entityId;
         ComponentRegistry& _componentRegistry;
         Renderable* _renderable = nullptr;
+        // ResourceManager* _resource = nullptr;
 };
