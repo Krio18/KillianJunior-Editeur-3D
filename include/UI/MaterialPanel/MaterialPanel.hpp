@@ -5,7 +5,6 @@
 #include "Components/Renderable.hpp"
 #include "Core/ComponentRegistry/ComponentRegistry.hpp"
 #include "Core/Entity/Entity.hpp"
-// #include "Manager/ResourceManager/ResourceManager.hpp"
 
 // System
 #include "Systems/SelectionSystem/SelectionSystem.hpp"
@@ -23,5 +22,4 @@ class MaterialPanel {
         ComponentRegistry& _componentRegistry;
         Renderable* _renderable = nullptr;
         SelectionSystem& _selectionSystem;
-        // ResourceManager* _resource = nullptr;
 };

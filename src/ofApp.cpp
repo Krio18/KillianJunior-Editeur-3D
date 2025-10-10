@@ -19,8 +19,6 @@ void ofApp::setup()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     this->_eventBridge = std::make_unique<EventBridge>(this->_eventManager);
-    this->_historyManager = std::make_unique<HistoryManager>();
-    this->_resourceManager = std::make_unique<ResourceManager>();
     this->_eventBridge->setup();
 
     this->_eventLogPanel = std::make_unique<EventLogPanel>();
@@ -95,7 +93,6 @@ void ofApp::setup()
         this->_entityManager,
         this->_componentRegistry,
         *this->_primitiveSystem,
-        *this->_selectionSystem,
         *this->_fileManager,
         this->_eventManager,
         *this->_viewportManager,
@@ -160,16 +157,6 @@ void ofApp::_setupScene()
     this->_componentRegistry.registerComponent(planeEntity.getId(), Selectable());
     this->_testEntities.push_back(planeEntity.getId());
     this->_eventLogPanel->addLog("Plane entity created (ID: " + ofToString(planeEntity.getId()) + ")", ofColor::magenta);
-
-    
-    Entity sphereEntity = this->_entityManager.createEntity();
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Transform(glm::vec3(0, 0, 0)));
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Sphere(1.2f));
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Renderable(ofMesh(), ofColor::green));
-    this->_sceneManager->registerEntity(sphereEntity.getId(), "Sphere");
-    this->_componentRegistry.registerComponent(sphereEntity.getId(), Selectable());
-    this->_testEntities.push_back(sphereEntity.getId());
-    this->_eventLogPanel->addLog("Sphere entity created (ID: " + ofToString(sphereEntity.getId()) + ")", ofColor::magenta);
 
     this->_primitiveSystem->generateMeshes();
     this->_eventLogPanel->addLog("All primitive meshes generated", ofColor::green);

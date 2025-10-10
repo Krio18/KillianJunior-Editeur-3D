@@ -135,17 +135,12 @@ void CameraManager::update(int viewportWidth, int viewportHeight)
 
 EntityManager &CameraManager::getEntityManager() const
 {
-    this->_cameraSystem.zoom(this->_activeCamera, dir);
+    return this->_entityManager;
 }
 
-void CameraManager::rotate(const glm::vec2 vect)
+ComponentRegistry &CameraManager::getComponentRegistry() const
 {
-    this->_cameraSystem.rotate(this->_activeCamera, vect);
-}
-
-void CameraManager::pan(const glm::vec3 vect)
-{
-    this->_cameraSystem.pan(this->_activeCamera, vect);
+    return this->_componentRegistry;
 }
 
 Camera *CameraManager::getActiveCamera() const
