@@ -165,13 +165,13 @@
 ## ✨ 10. Illumination moderne
 
 ### 10.1 PBR (Physically Based Rendering)
-- [ ] Il existe au moins 3 matériaux inspirés des principes du rendu basé sur la physique (PBR)
-- [ ] Permet d'illuminer une surface avec au moins 2 instances de lumière dynamique
+- [x] Il existe au moins 3 matériaux inspirés des principes du rendu basé sur la physique (PBR)
+- [x] Permet d'illuminer une surface avec au moins 2 instances de lumière dynamique
 
 ### 10.2 Métallicité
-- [ ] Il existe au moins 2 matériaux qui exposent un facteur de métallicité
-- [ ] Permet d'influencer interactivement l'apparence métallique d'une surface
+- [x] Il existe au moins 2 matériaux qui exposent un facteur de métallicité
+- [x] Permet d'influencer interactivement l'apparence métallique d'une surface
 
 ### 10.3 Microfacettes
-- [ ] Il existe au moins 2 matériaux qui exposent un facteur de rugosité
-- [ ] Permet d'influencer interactivement l'apparence d'une surface (rugosité des microfacettes)
+- [x] Il existe au moins 2 matériaux qui exposent un facteur de rugosité
+- [x] Permet d'influencer interactivement l'apparence d'une surface (rugosité des microfacettes)
