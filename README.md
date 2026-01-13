@@ -1,302 +1,176 @@
-# TODO List - Projet ECS openFrameworks
-
-## 📁 Phase 1: Structure de base et Types fondamentaux
-
-### Core/Entity.h
-
-- [x] Créer type `EntityID` (typedef uint32_t)
-- [x] Créer classe `Entity` avec ID unique
-- [x] Méthode `getId()` const
-- [x] Opérateurs de comparaison (==, <)
-- [x] Constructeur/destructeur
-
-### Core/ComponentRegistry.h
-
-- [x] Map pour stocker les composants par type
-- [x] Template `registerComponent<T>(EntityID)`
-- [x] Template `getComponent<T>(EntityID)`
-- [x] Template `removeComponent<T>(EntityID)`
-- [x] Template `hasComponent<T>(EntityID)`
-- [x] Méthode `removeAllComponents(EntityID)`
-- [x] Destructeur avec cleanup
-
-### Core/EntityManager.h
-
-- [x] Générateur d'IDs uniques
-- [x] Vector des entités actives
-- [x] Méthode `createEntity()` → EntityID
-- [x] Méthode `destroyEntity(EntityID)`
-- [x] Méthode `isEntityValid(EntityID)`
-- [x] Méthode `getAllEntities()`
-
-## 📁 Phase 2: Composants de base
-
-### Components/Transform.h
-
-- [x] `glm::vec3 position`
-- [x] `glm::vec3 rotation`
-- [x] `glm::vec3 scale`
-- [x] Constructeur par défaut
-- [x] TransformSystem calcul les matrices
-
-### Components/Renderable.h
-
-- [x] `ofMesh mesh`
-- [x] `ofColor color`
-- [x] `bool visible`
-- [x] Constructeur par défaut
-- [x] RenderSystem manipule le mesh
-
-### Components/Camera.h
-
-- [x] `glm::vec3 target`
-- [x] `glm::vec3 position`
-- [x] `float fov`
-- [x] `float nearClip, farClip`
-- [x] CameraSystem calcule les matrices
-
-### Components/Selectable.h
-
-- [x] `bool isSelected`
-- [x] `ofColor selectedColor`
-- [x] `ofColor normalColor`
-- [x] Constructeur par défaut
-
-### Components/Primitive/**.h
-
-- [x] Créer un composant Box avec glm::vec3 dimensions
-- [x] Créer un composant Sphere avec float radius
-- [x] Créer un composant Plane avec glm::vec2 size
-- [x] PrimitiveSystem génère les meshes à partir des composants correspondants
-
-## 📁 Phase 3: Système d'événements
-
-### Events/EventTypes.h
-
-- [x] Enum Class `EventType` (INPUT, SELECTION, CAMERA, etc.)
-- [x] Struct de base `Event` avec type et timestamp
-- [X] Structs spécialisés:
-  - [x] `MouseEvent` (x, y, button, type)
-  - [x] `KeyEvent` (key, type)
-  - [x] `SelectionEvent` (entityID, selected)
-  - [X] `CameraEvent` (position, target, type)
-
-### Events/EventManager.h
-
-- [x] Map de callbacks par type d'événement
-- [x] Queue d'événements à traiter
-- [x] Template `subscribe<T>(callback)`
-- [x] Template `unsubscribe<T>(callback)`
-- [x] Template `emit<T>(event)`
-- [x] Méthode `processEvents()` (vidage de la queue)
-
-### Events/EventBridge.h
-
-- [x] Référence vers EventManager
-- [x] Constructeur avec EventManager*
-- [x] `onKeyPressed(int key)`
-- [x] `onKeyReleased(int key)`
-- [x] `onMousePressed(int x, int y, int button)`
-- [x] `onMouseReleased(int x, int y, int button)`
-- [x] `onMouseMoved(int x, int y)`
-- [x] `onMouseDragged(int x, int y, int button)`
-- [x] `onMouseScrolled(int x, int y, float sx, float sy)`
-- [x] `onWindowResized(int w, int h)`
-- [x] `onDragEvent(ofDragInfo dragInfo)`
-
-## 📁 Phase 4: Systèmes logiques
-
-### Systems/RenderSystem.h
-
-- [x] Référence vers ComponentRegistry
-- [x] Référence vers caméra active
-- [x] Méthode `render()`
-- [x] Méthode `setActiveCamera(EntityID)`
-- [x] Rendu des entités avec Transform + Renderable
-- [x] Gestion des materials et shaders
-- [x] Culling et optimisations
-
-### Systems/SelectionSystem.h
-
-- [x] Référence vers ComponentRegistry et EventManager
-- [x] Subscribe aux MouseEvents
-- [x] Méthode `handleMouseClick(MouseEvent)`
-- [x] Ray casting pour sélection 3D
-- [x] Mise à jour composants Selectable
-- [x] Émission SelectionEvents
-- [x] S'active seulement en select mode
-- [x] Bounding boxes
-- [x] Gère tout type de mesh
-- [ ] Select seulement des objets visibles
-
-### Systems/TransformSystem.h
-
-- [x] Mise à jour matrices de transformation
-- [x] Gestion hiérarchies parent/enfant
-- [x] Méthode `updateTransforms()`
-- [x] Calcul matrices globales
-- [x] Optimisations (dirty flags)
-
-### Systems/CameraSystem.h
-
-- [x] Subscribe aux événements caméra
-- [x] Gestion multiple caméras
-- [x] Méthodes de déplacement (orbit, pan, zoom)
-- [x] Méthode `updateCamera(float deltaTime)`
-- [x] Contraintes de mouvement
-
-## 📁 Phase 5: Managers globaux
-
-### Manager/InputManager.h
-
-- [x] État actuel clavier/souris
-- [x] Historique des inputs
-- [x] Méthodes `isKeyPressed(int key)`
-- [x] Méthodes `getMousePosition()`
-- [x] Méthodes `getMouseDelta()`
-- [x] Gestion raccourcis clavier
-- [x] Subscribe aux EventBridge events
-
-### Manager/CameraManager.h
-
-- [x] Liste des caméras disponibles
-- [x] ID de la caméra active
-- [x] Méthodes `createCamera(EntityID)`
-- [x] Méthodes `setActiveCamera(EntityID)`
-- [x] Méthodes `getActiveCamera()`
-- [x] Mise à jour automatique aspect ratio
-
-### Manager/HistoryManager.h
-
-- [x] Stack des commandes (Command Pattern)
-- [ ] Méthodes `executeCommand(Command*)`
-- [ ] Méthodes `undo()`
-- [ ] Méthodes `redo()`
-- [ ] Limite historique configurable
-- [ ] Sérialisation/désérialisation états
-
-### Manager/FileManager.h
-
-- [ ] Méthodes `saveScene(string filename)` - optionel
-- [ ] Méthodes `loadScene(string filename)` - optionel
-- [x] Méthodes `exportMesh(EntityID, string filename)`
-- [x] Méthodes `importMesh(string filename)` → EntityID
-- [x] Support formats (OBJ, PLY, STL)
-- [x] Gestion erreurs et validations
-
-### Manager/ResourceManager.h
-
-- [x] Cache des ressources (meshes, textures, shaders)
-- [x] Méthodes `loadMesh(string path)`
-- [x] Méthodes `loadTexture(string path)`
-- [x] Méthodes `loadShader(string path)`
-- [x] Reference counting
-- [x] Nettoyage automatique ressources inutilisées
-
-## 📁 Phase 6: Interface utilisateur
-
-### UI/ToolBar.h
-
-- [x] Liste des outils disponibles
-- [x] Outil actuellement sélectionné
-- [x] Méthodes `addTool(Tool)`
-- [x] Méthodes `selectTool(ToolType)`
-- [x] Méthodes `render()`
-- [ ] Gestion événements clic outils
-
-### UI/ColorPalette.h
-
-- [x] Couleur actuellement sélectionnée
-- [x] Palette de couleurs prédéfinies
-- [x] Méthodes `setSelectedColor(ofColor)`
-- [x] Méthodes `getSelectedColor()`
-- [x] Méthodes `render()`
-- [ ] Interface picker couleur
-
-### UI/Properties.h
-
-- [x] Affichage propriétés entité sélectionnée
-- [x] Champs éditables pour Transform
-- [x] Champs éditables pour Material
-- [x] Méthodes `setSelectedEntity(EntityID)`
-- [x] Méthodes `render()`
-
-### UI/Viewport.h
-
-- [x] Zone de rendu 3D principal
-- [x] Gestion resize
-- [ ] Overlays (gizmos)
-- [x] Overlays (grid, axes)
-- [x] Méthodes `render()`
-- [x] Conversion coordonnées écran ↔ 3D
-- [x] Gestion multi-viewport
-
-## 📁 Phase 7: Core Systems
-
-### Core/SystemManager.h
-
-- [ ] Liste de tous les systèmes
-- [ ] Ordre d'exécution des systèmes
-- [ ] Méthodes `registerSystem<T>()`
-- [ ] Méthodes `updateSystems(float deltaTime)`
-- [ ] Méthodes `renderSystems()`
-- [ ] Gestion activation/désactivation systèmes
-
-### Core/SceneManager.h (World/Scene Manager)
-
-- [ ] Référence vers tous les managers
-- [ ] Méthodes `initialize()`
-- [ ] Méthodes `update(float deltaTime)`
-- [ ] Méthodes `render()`
-- [ ] Méthodes `cleanup()`
-- [ ] Méthodes `loadScene(string name)`
-- [ ] Méthodes `saveCurrentScene()`
-- [ ] Gestion états de l'application
-
-## 📁 Phase 8: Intégration et finitions
-
-### ofApp.h/cpp (déjà fait)
-
-- [x] Intégration des managers principaux
-- [x] Relais événements vers EventBridge
-- [x] Cycle update/render
-
-### Tests et optimisations
-
-- [ ] Tests unitaires composants de base
-- [ ] Tests systèmes de rendu
-- [ ] Tests sélection/interaction
-- [ ] Profiling et optimisations performance
-- [ ] Gestion mémoire et fuites
-- [ ] Tests sur différentes plateformes
-
-### Documentation
-
-- [ ] Documentation API des composants
-- [ ] Guide d'utilisation
-- [ ] Exemples d'extension du système
-- [ ] Diagrammes d'architecture mis à jour
-
-### Fonctionnalités avancées (optionnel)
-
-- [ ] Système de plugins
-- [ ] Scripting (Lua/Python)
-- [ ] Networking pour collaboration
-- [ ] Animation et timeline
-- [ ] Système de particules
-- [ ] Post-processing effects
+# 🎨 Editeur 3D - Architecture ECS avec OpenFrameworks
+
+**Équipe E02** | IFT3100A25 - Infographie
+**Période**: Septembre - Décembre 2025
+**Université Laval**
 
 ---
 
-## 📋 Ordre de développement recommandé
+## 📋 Description
 
-1. **Phase 1** → Base solide ECS
-2. **Phase 2** → Composants essentiels
-3. **Phase 3** → Communication événements
-4. **Phase 4** → Rendu et interactions de base
-5. **Phase 7** → SceneManager (intégration)
-6. **Phase 5** → Managers spécialisés
-7. **Phase 6** → Interface utilisateur
-8. **Phase 8** → Polish et optimisations
+Application d'édition et de rendu 3D développée avec openFrameworks, utilisant une architecture Entity-Component-System (ECS) modulaire et performante. Le projet implémente des techniques avancées d'infographie incluant le raytracing, le rendu physiquement réaliste (PBR), la triangulation de Delaunay et divers algorithmes de géométrie computationnelle.
 
-**Chaque phase devrait être testée avant de passer à la suivante !**
+---
+
+## ✨ Fonctionnalités principales
+
+### 🎨 Import/Export & Gestion d'images
+- **Import d'images** - Chargement interactif de fichiers images dans la scène
+- **Export de séquences** - Exportation d'animations sous forme de séquences d'images
+- **Palette de couleurs** - Système de palette personnalisable avec pipette (eyedropper)
+- **Formats supportés** - OBJ, PLY, STL pour les modèles 3D
+
+### 🖱️ Outils et Interaction
+- **Curseurs dynamiques** - 5+ représentations visuelles selon le contexte (sélection, dessin, transformation)
+- **Primitives 2D/3D** - Création de points, lignes, triangles, carrés, rectangles, cercles, cubes, sphères
+- **Interface ImGui** - Panneaux interactifs pour contrôler tous les aspects de l'application
+- **Graphe de scène** - Organisation hiérarchique des entités avec ajout/suppression/édition d'attributs
+
+### 🧠 Sélection et Transformation
+- **Sélection multiple** - Sélection et modification simultanée d'objets
+- **Transformations** - Translation, rotation, mise à l'échelle via interface
+- **Bounding boxes** - Affichage automatique des boîtes de délimitation
+- **Ray casting** - Sélection précise d'objets 3D par raycasting
+
+### 🎥 Caméras et Navigation
+- **Caméra interactive** - Contrôles orbit, pan, zoom fluides
+- **Multi-caméras** - Support de plusieurs caméras (perspective/orthographique)
+- **Viewports multiples** - Affichage simultané avec différentes caméras
+- **Focus automatique** - Cadrage optimal sur la sélection
+
+### 🖼️ Textures et Matériaux
+- **Texture mapping** - Coordonnées UV pour toutes les primitives
+- **Cubemaps** - Skybox et réflexions environnementales
+- **Textures procédurales** - Génération de textures algorithmiques
+- **Normal/Displacement mapping** - Effets de relief sur les surfaces
+
+### 💡 Illumination et Rendu
+- **Modèles classiques** - Lambert, Phong
+- **Types de lumières** - Ambiante, directionnelle, ponctuelle, projecteur
+- **Matériaux PBR** - Rendu physiquement réaliste avec métallicité et rugosité
+- **Presets de matériaux** - Collection de matériaux prédéfinis (métaux, plastiques, etc.)
+
+### 🌟 Raytracing
+- **Intersections géométriques** - Calcul pour sphères, triangles, meshes complets
+- **Réflexions** - Surfaces miroir et réfléchissantes
+- **Réfraction** - Matériaux transparents (verre, eau)
+- **Ombres portées** - Calcul d'ombrage par raytracing
+- **Optimisations BVH** - Bounding Volume Hierarchy pour performances accrues
+
+### 🔷 Topologie et Géométrie
+- **Triangulation de Delaunay** - Génération de maillages à partir de points
+- **Diagramme de Voronoï** - Visualisation des cellules de Voronoï
+- **Courbes paramétriques** - Courbes de Bézier et Catmull-Rom avec points de contrôle
+- **Primitives procédurales** - Génération de géométrie 3D
+
+---
+
+## 🛠️ Technologies
+
+- **OpenFrameworks** - Framework multimédia C++
+- **ImGui** - Interface utilisateur immédiate
+- **GLM** - Mathématiques graphiques (vecteurs, matrices)
+- **C++17** - Langage moderne avec templates et RAII
+- **OpenGL/GLSL** - Rendu graphique et shaders
+
+---
+
+## 🚀 Compilation et exécution
+
+### Prérequis
+- OpenFrameworks 0.12.0+
+- Compilateur C++17 (GCC, Clang, MSVC)
+- Make ou IDE compatible
+
+### Configuration
+
+1. Cloner le dépôt dans votre dossier openFrameworks:
+```bash
+cd OF_ROOT/apps/myApps/
+git clone [URL_DU_REPO] IFT3100A25_TP1_E02
+```
+
+2. Créer un fichier `.env` à la racine avec le chemin vers openFrameworks:
+```bash
+OF_ROOT=/path/to/openFrameworks
+```
+
+3. Compiler:
+```bash
+make
+make run
+```
+
+---
+
+## 📊 Fonctionnalités implémentées
+
+### ✅ Complétées à 100%
+- **1. Import/Export & Couleur** - Import images, export séquences, palette
+- **2. Outils et Interaction** - Curseurs, primitives, interface
+- **3. Sélection et Transformation** - Graphe de scène, sélection multiple, transformations
+- **4. 3D et Géométrie** - Bounding boxes, primitives 3D, import modèles
+- **5. Caméras et Navigation** - Multi-caméras, navigation, focus
+- **6. Texture** - Mapping, cubemaps, textures procédurales
+- **7. Illumination classique** - Lambert, Phong, 4 types de lumières
+- **8. Topologie** - Delaunay, courbes, relief mapping
+- **9. Lancer de rayon** - Intersections, réflexions, ombrage
+- **10. Illumination moderne (PBR)** - Implémentation avancée du PBR avec métallicité et rugosité
+
+---
+
+## 👥 Équipe E02
+
+- **Killian Cottrelle** - Architecture Logiciel, Architecture ECS, systèmes de base, viewport, scene 3D, Illumination classique, RayTracing, interface, Système d'événements
+- **Antonin Leprest** - Configuration, compilation, Import/Export, Transformation
+- **Clément Barrier** - Système de caméra, PBR, Courbe paramétrique, Sélection
+- **Léandre Cacarie** - Tests, validation
+- **Marion Kauffmann** - Texture
+
+<div align="center">
+    <table>
+        <tr>
+            <td align="center">
+                <a href="https://github.com/Krio18">
+                    <img src="https://github.com/Krio18.png" width="100px;" alt="Krio18"/>
+                    <br />
+                    <sub><b>Killian Cottrelle</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Matribuk">
+                    <img src="https://github.com/Matribuk.png" width="100px;" alt="Matribuk"/>
+                    <br />
+                    <sub><b>Antonin Leprest</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Maskalito">
+                    <img src="https://github.com/Maskalito.png" width="100px;" alt="Maskalito"/>
+                    <br />
+                    <sub><b>Clément Barrier</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Richonn">
+                    <img src="https://github.com/Richonn.png" width="100px;" alt="Richonn"/>
+                    <br />
+                    <sub><b>Léandre Cacarie</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/THORINKAUFFMANN">
+                    <img src="https://github.com/THORINKAUFFMANN.png" width="100px;" alt="THORINKAUFFMANN"/>
+                    <br />
+                    <sub><b>Marion Kauffmann</b></sub>
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+---
+
+## 📄 Licence
+
+Projet académique - IFT3100A25 - Université Laval - 2025
