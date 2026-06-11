@@ -9,7 +9,7 @@
 
 [![Démo de l'éditeur 3D](https://img.youtube.com/vi/qA-HIR9qzUw/maxresdefault.jpg)](https://www.youtube.com/watch?v=qA-HIR9qzUw)
 [![Démo 2 de l'éditeur 3D](https://img.youtube.com/vi/zBN3nXR9hmg/maxresdefault.jpg)](https://www.youtube.com/watch?v=zBN3nXR9hmg)
-
+*Cliquez sur les images pour voir les démonstrations vidéo.*
 ---
 
 ## 📋 Description
